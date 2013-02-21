@@ -11,18 +11,21 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Bundle 'gmarik/vundle'
 
 " My Bundles here:
 "
 " original repos on github
+Bundle 'thisivan/vim-bufexplorer'
 Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'kien/ctrlp.vim'
 Bundle 'scrooloose/nerdtree'
+Bundle 'jistr/vim-nerdtree-tabs'
+Bundle 'klen/python-mode'
 " vim-scripts repos
 Bundle 'L9'
 Bundle 'FuzzyFinder'
@@ -215,6 +218,9 @@ let g:pydiction_location='/home/carles/dev/linux-env/vim/pydict/complete-dict'
 " personal keyboard mappings and commands
 " remove trailing spaces from all lines
 map <C-S-M> :%s/ *$//g<CR>
+" find tag
+nmap FT :tag
+
 " Write open file with sudo
 command Wsudo w !sudo dd of=%
 "nmap <C-S-D> :Wsudo<CR><CR>l
@@ -223,6 +229,15 @@ command Xformat %!xmllint --format -
 
 " Syntax highlight JSON files
 autocmd BufNewFile,BufRead *.json set ft=javascript
+
+" On VIM enter, open NERDTree and go to buffer
+"autocmd VimEnter * NERDTree
+" autocmd BufEnter * NERDTreeMirror
+"autocmd VimEnter * wincmd w
+
+" NERDTree-tabs
+map <Leader>n <plug>NERDTreeTabsToggle<CR>
+let g:nerdtree_tabs_open_on_console_startup = 1
 
 
 "-----------------------------------------------------------
