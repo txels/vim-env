@@ -1,0 +1,11 @@
+#!/bin/bash
+
+function relink {
+   mv ~/.$1 ~/.$1.old
+   ln -s ~/dev/vim-env/$1 ~/.$1
+}
+
+for file in vim vimrc
+do
+    relink $file
+done
