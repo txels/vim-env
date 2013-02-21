@@ -7,7 +7,6 @@ set nocompatible               " be iMproved
 filetype off                   " required!
 
 set rtp+=~/.vim/bundle/vundle/
-set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 
 call vundle#rc()
 
@@ -20,8 +19,10 @@ Bundle 'gmarik/vundle'
 " original repos on github
 Bundle 'tpope/vim-fugitive'
 Bundle 'Lokaltog/vim-easymotion'
-Bundle 'Lokaltog/powerline'
+Bundle 'Lokaltog/vim-powerline'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+Bundle 'kien/ctrlp.vim'
+Bundle 'scrooloose/nerdtree'
 " vim-scripts repos
 Bundle 'L9'
 Bundle 'FuzzyFinder'
@@ -40,6 +41,12 @@ filetype plugin indent on     " required!
 "
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
+"
+
+" Powerline
+
+" newer version:  set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+let g:Powerline_symbols = 'fancy'
 
 "----------------------------------------------------------------------------
 " Default VIMRC options: Bram Moolenaar <Bram@vim.org>
