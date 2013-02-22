@@ -292,4 +292,7 @@ set wmh=0
 map <C-J> <C-W>j<C-W>_
 map <C-K> <C-W>k<C-W>_
 map <M-F11> <C-W>_
-"-----------------------------------------------------------
+
+" Navigate quickfix list
+nmap <C-Y> :cn<CR>
+nmap <C-U> :cprev<CR>
