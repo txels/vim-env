@@ -1,16 +1,16 @@
+"----------------------------------------------------------------------------
 " VIM configuration file
 " Author: Carles Barrobés
 
 "----------------------------------------------------------------------------
 " Vundle:
 
-set nocompatible               " be iMproved
-filetype off                   " required!
-set rtp+=~/.vim/bundle/vundle/
+set nocompatible              " be iMproved
+filetype off                  " required!
+set runtimepath+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" let Vundle manage Vundle
-" required!
+" let Vundle manage Vundle required!
 Bundle 'gmarik/vundle'
 
 " -- original repos on github
@@ -29,11 +29,12 @@ Bundle 'klen/python-mode'
 Bundle 'tpope/vim-surround'
 Bundle 'majutsushi/tagbar'
 " -- vim-scripts repos
-Bundle 'L9'
+" Bundle 'L9'
 
-filetype plugin indent on     " required!
+filetype plugin indent on     " Required by Vundle.
+                              " Enables uploading plugin and indent files for filetypes
 
-" Brief help
+" Brief Vundle help
 " :BundleList          - list configured bundles
 " :BundleInstall(!)    - install(update) bundles
 " :BundleSearch(!) foo - search(or refresh cache first) for foo
@@ -41,28 +42,44 @@ filetype plugin indent on     " required!
 "
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
-"----------------------------------------------------------------------------
-
-" Powerline
-" newer version:  set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-" disabled as I could not get patched fonts to work
-let g:Powerline_symbols = 'fancy'
 
 "----------------------------------------------------------------------------
+" Personalised settings:
 
-if has("vms")
-    set nobackup    " do not keep a backup file, use versions instead
-else
-    set backup      " keep a backup file
-endif
+colorscheme txels-dark
 
+" Status line (when not using powerline):
+" %f relative path name - %m modified flag
+" %l line - %L total lines - %p percentage - %v virtual column
+" %n buffer number - %b char under cursor - %B said char in hex
+set statusline=%f\ %m\ Line:%l/%L[%p%%]\ Col:%v\ Buf:#%n\ [%b][0x%B]
 
-" Don't use Ex mode, use Q for formatting
-map Q gq
+set backspace=indent,eol,start  " allow backspacing over everything in insert mode
+set backup                      " keep a backup file
+set backupdir=.backup,~/.backup,.,/tmp   " places where to save backup files, in given order
+set clipboard+=unnamed
+set colorcolumn=80              " Add a visible end-of-line column
+set commentstring=\ #\ %s
 
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
+set cpoptions+=$                " Make 'cw' and like put $ at the end instead of just deleting/replacing text
+set cursorcolumn                " Show a highlighted column for cursor position
+set cursorline                  " Show a highlighted row for cursor position
+set directory=.,~/.backup,/tmp
+set encoding=utf8
+set expandtab                   " Tab key will always be expanded to spaces
+set hidden                      " Hide buffers when abandoned, instead of unloading
+set history=50                  " keep 50 lines of command line history
+set incsearch                   " do incremental searching
+set laststatus=2                " always put a status line, even if there is only one window
+set noignorecase
+set ruler                       " show the cursor position all the time
+set scrolloff=2
+set shiftwidth=4
+set showcmd                     " display incomplete commands on lower right corner
+set softtabstop=4
+set tabstop=4
+set textwidth=0                 " when set to 0, do not auto-wrap lines
+set wildmenu
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -76,14 +93,11 @@ if &t_Co > 2 || has("gui_running")
     set hlsearch
 endif
 
+" File type (and syntax highlight) JSON files as javascript
+autocmd BufNewFile,BufRead *.json set ft=javascript
+
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
-
-    " Enable file type detection.
-    " Use the default filetype settings, so that mail gets 'tw' set to 72,
-    " 'cindent' is on in C files, etc.
-    " Also load indent files, to automatically do language-dependent indenting.
-    filetype plugin indent on
 
     " Put these in an autocmd group, so that we can delete them easily.
     augroup vimrcEx
@@ -101,10 +115,9 @@ if has("autocmd")
                     \ if line("'\"") > 1 && line("'\"") <= line("$") |
                     \   exe "normal! g`\"" |
                     \ endif
-
     augroup END
-
 endif " has("autocmd")
+
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
@@ -114,45 +127,6 @@ if !exists(":DiffOrig")
                 \ | wincmd p | diffthis
 endif
 
-"----------------------------------------------------------------------------
-
-colorscheme txels-dark
-
-" Make 'cw' and like put $ at the end instead of just deleting/replacing text
-set cpoptions+=$
-
-" Set the status line (if not using powerline)
-set stl=%f\ %m\ Line:%l/%L[%p%%]\ Col:%v\ Buf:#%n\ [%b][0x%B]
-
-
-set backspace=indent,eol,start  " allow backspacing over everything in insert mode
-set backupdir=.backup,~/.backup,.,/tmp
-set clipboard+=unnamed
-set colorcolumn=80              " Add a visible end-of-line column
-set commentstring=\ #\ %s
-set cursorcolumn                " Show a highlighted column for cursor position
-set cursorline                  " Show a highlighted row for cursor position
-set directory=.,~/.backup,/tmp
-set encoding=utf8
-set expandtab                   " Tab key will always be expanded to spaces
-set hidden                      " Hide buffers when abandoned, instead of unloading
-set history=50                  " keep 50 lines of command line history
-set incsearch                   " do incremental searching
-set laststatus=2                " always put a status line, even if there is only one window
-set noignorecase
-set ruler                       " show the cursor position all the time
-set scrolloff=2
-set shiftwidth=4
-set showcmd                     " display incomplete commands
-set softtabstop=4
-set tabstop=4
-set textwidth=0
-set wildmenu
-
-" Copy and paste to system clipboard in Ubuntu - not needed if +clipboard
-" which is the default for vim-gnome
-"vmap <C-c> y: call system("xclip -i -selection clipboard", getreg("\""))<CR>
-"nmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
 
 " Set cursor color in gnome or xterm
 if &term =~ "xterm\\|rxvt"
@@ -165,21 +139,24 @@ if &term =~ "xterm\\|rxvt"
     autocmd VimLeave * silent !echo -ne "\033]12;white\007"
 endif
 
+"----------------------------------------------------------------------------
+" Plugins: specific configuration
 
-" Syntax highlight JSON files
-autocmd BufNewFile,BufRead *.json set ft=javascript
+" --- Powerline
+" newer version:  set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+" disabled as I could not get patched fonts to work
+let g:Powerline_symbols = 'fancy'
 
-" NERDTree-tabs
-map <Leader>n <plug>NERDTreeTabsToggle<CR>
+" --- NERDTree-tabs
 let g:nerdtree_tabs_open_on_console_startup = 1
 
-
-"-----------------------------------------------------------
-" Python mode:
+" --- Python mode:
 let g:pymode_folding = 0
 
-"-----------------------------------------------------------
-" BUFFERS
+" --- Tagbar
+
+"----------------------------------------------------------------------------
+" Functions:
 
 "Buffer selection by matching pattern in buffer name
 function! BufSel(pattern)
@@ -210,11 +187,33 @@ function! BufSel(pattern)
     endif
 endfunction
 
+"----------------------------------------------------------------------------
+" Commands:
+
 "Bind the BufSel() function to a user-command
 command! -nargs=1 Bs :call BufSel("<args>")
 command! B :call BufSel(".")
 
+" Write open file with sudo
+command Wsudo w !sudo dd of=%
+"nmap <C-S-D> :Wsudo<CR><CR>l
+" Format XML
+command Xformat %!xmllint --format -
+
+"----------------------------------------------------------------------------
+" Mappings:
+
+" Don't use Ex mode, use Q for formatting
+map Q gq
+
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
+
+nmap <F7> :TagbarToggle<CR>
 nnoremap <F8> :buffers<CR>:buffer<Space>
+
+map <Leader>n <plug>NERDTreeTabsToggle<CR>
 
 "Buffers - explore/next/previous: Alt-F12, F12, Shift-F12.
 nnoremap <silent> <M-F12> :BufExplorer<CR>
@@ -226,15 +225,6 @@ nnoremap <silent> <S-F12> :bp<CR>
 map <C-S-M> :%s/ *$//g<CR>
 " find tag
 nmap FT :tag
-
-" tagbar
-nmap <F7> :TagbarToggle<CR>
-
-" Write open file with sudo
-command Wsudo w !sudo dd of=%
-"nmap <C-S-D> :Wsudo<CR><CR>l
-" Format XML
-command Xformat %!xmllint --format -
 
 "Switch between windows and maximize
 set wmh=0
