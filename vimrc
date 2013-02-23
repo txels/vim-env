@@ -48,42 +48,53 @@ filetype plugin indent on     " Required by Vundle.
 
 colorscheme txels-dark
 
-" Status line (when not using powerline):
-" %f relative path name - %m modified flag
-" %l line - %L total lines - %p percentage - %v virtual column
-" %n buffer number - %b char under cursor - %B said char in hex
-set statusline=%f\ %m\ Line:%l/%L[%p%%]\ Col:%v\ Buf:#%n\ [%b][0x%B]
-
 set backspace=indent,eol,start  " allow backspacing over everything in insert mode
 set backup                      " keep a backup file
 set backupdir=.backup,~/.backup,.,/tmp   " places where to save backup files, in given order
 set clipboard+=unnamed
 set colorcolumn=80              " Add a visible end-of-line column
-set commentstring=\ #\ %s
-
-set cpoptions+=$                " Make 'cw' and like put $ at the end instead of just deleting/replacing text
+set cpoptions+=$                " 'cw' etc put $ at end instead of deleting/replacing text
 set cursorcolumn                " Show a highlighted column for cursor position
 set cursorline                  " Show a highlighted row for cursor position
-set directory=.,~/.backup,/tmp
+set directory=.,.backup,~/.backup,/tmp
 set encoding=utf8
 set expandtab                   " Tab key will always be expanded to spaces
 set hidden                      " Hide buffers when abandoned, instead of unloading
 set history=50                  " keep 50 lines of command line history
 set incsearch                   " do incremental searching
 set laststatus=2                " always put a status line, even if there is only one window
-set noignorecase
+set noignorecase                " do not ignore case for search
 set ruler                       " show the cursor position all the time
-set scrolloff=2
-set shiftwidth=4
+set scrolloff=4                 " minimal number of screen lines above and below cursor
+set shiftround                  " > and < will round indent to multiple of shiftwidth
+set shiftwidth=4                " Spaces to use for each step of autoindent
 set showcmd                     " display incomplete commands on lower right corner
-set softtabstop=4
-set tabstop=4
+set smartcase                   " override ignorecase if pattern includes uppercase
+set tabstop=4                   " Number of spaces a tab in the file counts for
 set textwidth=0                 " when set to 0, do not auto-wrap lines
-set wildmenu
+set wildmenu                    " Enhanced command-line completion with a menu
+" set wildmode=longest:full       " Complete till longest common string
+
+" Status line (when not using powerline):
+" %f relative path name - %m modified flag
+" %l line - %L total lines - %p percentage - %v virtual column
+" %n buffer number - %b char under cursor - %B said char in hex
+set statusline=%f\ %m\ Line:%l/%L[%p%%]\ Col:%v\ Buf:#%n\ [%b][0x%B]
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
     set mouse=a
+endif
+
+" Set cursor color in gnome or xterm
+if &term =~ "xterm\\|rxvt"
+    " use an orange cursor in insert mode
+    let &t_SI = "\<Esc>]12;orange\x7"
+    " use a white cursor otherwise
+    let &t_EI = "\<Esc>]12;white\x7"
+    silent !echo -ne "\033]12;white\007"
+    " reset cursor when vim exits (gnome-terminal)
+    autocmd VimLeave * silent !echo -ne "\033]12;white\007"
 endif
 
 " Switch syntax highlighting on, when the terminal has colors
@@ -98,7 +109,6 @@ autocmd BufNewFile,BufRead *.json set ft=javascript
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
-
     " Put these in an autocmd group, so that we can delete them easily.
     augroup vimrcEx
         au!
@@ -118,27 +128,6 @@ if has("autocmd")
     augroup END
 endif " has("autocmd")
 
-
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-if !exists(":DiffOrig")
-    command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-                \ | wincmd p | diffthis
-endif
-
-
-" Set cursor color in gnome or xterm
-if &term =~ "xterm\\|rxvt"
-    " use an orange cursor in insert mode
-    let &t_SI = "\<Esc>]12;orange\x7"
-    " use a white cursor otherwise
-    let &t_EI = "\<Esc>]12;white\x7"
-    silent !echo -ne "\033]12;white\007"
-    " reset cursor when vim exits (gnome-terminal)
-    autocmd VimLeave * silent !echo -ne "\033]12;white\007"
-endif
-
 "----------------------------------------------------------------------------
 " Plugins: specific configuration
 
@@ -152,8 +141,6 @@ let g:nerdtree_tabs_open_on_console_startup = 1
 
 " --- Python mode:
 let g:pymode_folding = 0
-
-" --- Tagbar
 
 "----------------------------------------------------------------------------
 " Functions:
@@ -197,8 +184,12 @@ command! B :call BufSel(".")
 " Write open file with sudo
 command Wsudo w !sudo dd of=%
 "nmap <C-S-D> :Wsudo<CR><CR>l
+
 " Format XML
 command Xformat %!xmllint --format -
+
+" See the difference between the current buffer and the file it was loaded from
+command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 
 "----------------------------------------------------------------------------
 " Mappings:
@@ -206,8 +197,8 @@ command Xformat %!xmllint --format -
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
+" CTRL-U in insert mode deletes a lot. Use CTRL-G u to first break undo, so
+" that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
 
 nmap <F7> :TagbarToggle<CR>
