@@ -3,7 +3,7 @@
 " Author: Carles Barrobés
 
 "----------------------------------------------------------------------------
-" Vundle:
+" Vundle: {{{
 
 set nocompatible              " be iMproved
 filetype off                  " required!
@@ -44,8 +44,9 @@ filetype plugin indent on     " Required by Vundle.
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
 
+"}}}
 "----------------------------------------------------------------------------
-" Personalised settings:
+" Personalised settings: {{{
 
 colorscheme txels-dark
 
@@ -129,8 +130,9 @@ if has("autocmd")
     augroup END
 endif " has("autocmd")
 
+"}}}
 "----------------------------------------------------------------------------
-" Plugins: specific configuration
+" Plugins: specific configuration {{{
 
 " --- Powerline
 " newer version:  set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
@@ -143,8 +145,12 @@ let g:nerdtree_tabs_open_on_console_startup = 1
 " --- Python mode:
 let g:pymode_folding = 0
 
+" --- Gundo:
+let g:gundo_right = 1
+
+"}}}
 "----------------------------------------------------------------------------
-" Functions:
+" Functions: {{{
 
 "Buffer selection by matching pattern in buffer name
 function! BufSel(pattern)
@@ -175,8 +181,9 @@ function! BufSel(pattern)
     endif
 endfunction
 
+"}}}
 "----------------------------------------------------------------------------
-" Commands:
+" Commands: {{{
 
 "Bind the BufSel() function to a user-command
 command! -nargs=1 Bs :call BufSel("<args>")
@@ -192,8 +199,9 @@ command Xformat %!xmllint --format -
 " See the difference between the current buffer and the file it was loaded from
 command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 
+"}}}
 "----------------------------------------------------------------------------
-" Mappings:
+" Mappings: {{{
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -204,13 +212,14 @@ inoremap <C-U> <C-G>u<C-U>
 
 nmap <F7> :TagbarToggle<CR>
 nnoremap <F8> :buffers<CR>:buffer<Space>
-
-map <Leader>n <plug>NERDTreeTabsToggle<CR>
+nnoremap <F9> :GundoToggle<CR>
 
 "Buffers - explore/next/previous: Alt-F12, F12, Shift-F12.
 nnoremap <silent> <M-F12> :BufExplorer<CR>
 nnoremap <silent> <F12> :bn<CR>
 nnoremap <silent> <S-F12> :bp<CR>
+
+map <Leader>n <plug>NERDTreeTabsToggle<CR>
 
 " personal keyboard mappings and commands
 " remove trailing spaces from all lines
@@ -227,3 +236,6 @@ map <M-F11> <C-W>_
 " Navigate quickfix list
 nmap <C-Y> :cn<CR>
 nmap <C-U> :cprev<CR>
+
+"}}}
+"----------------------------------------------------------------------------
