@@ -28,6 +28,7 @@ Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'klen/python-mode'
 Bundle 'tpope/vim-surround'
 Bundle 'majutsushi/tagbar'
+Bundle 'sjl/gundo.vim'
 " -- vim-scripts repos
 " Bundle 'L9'
 
