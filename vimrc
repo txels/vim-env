@@ -138,6 +138,7 @@ endif " has("autocmd")
 " newer version:  set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 " disabled as I could not get patched fonts to work
 let g:Powerline_symbols = 'fancy'
+"let g:Powerline_colorscheme = 'default'
 
 " --- NERDTree-tabs
 let g:nerdtree_tabs_open_on_console_startup = 1
