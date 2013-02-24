@@ -1,6 +1,10 @@
 "----------------------------------------------------------------------------
 " VIM configuration file
 " Author: Carles Barrobés
+"----------------------------------------------------------------------------
+
+" Change mapleader
+let mapleader=","
 
 "----------------------------------------------------------------------------
 " Vundle: {{{
@@ -61,6 +65,7 @@ set cursorline                  " Show a highlighted row for cursor position
 set directory=.,.backup,~/.backup,/tmp
 set encoding=utf8
 set expandtab                   " Tab key will always be expanded to spaces
+set foldmethod=marker           " Fold on markers (as used in this VIMRC file)
 set hidden                      " Hide buffers when abandoned, instead of unloading
 set history=50                  " keep 50 lines of command line history
 set incsearch                   " do incremental searching
@@ -191,11 +196,11 @@ command! -nargs=1 Bs :call BufSel("<args>")
 command! B :call BufSel(".")
 
 " Write open file with sudo
-command Wsudo w !sudo dd of=%
+command! Wsudo w !sudo dd of=%
 "nmap <C-S-D> :Wsudo<CR><CR>l
 
 " Format XML
-command Xformat %!xmllint --format -
+command! Xformat %!xmllint --format -
 
 " See the difference between the current buffer and the file it was loaded from
 command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
@@ -204,14 +209,11 @@ command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | d
 "----------------------------------------------------------------------------
 " Mappings: {{{
 
-" Don't use Ex mode, use Q for formatting
-map Q gq
-
 " CTRL-U in insert mode deletes a lot. Use CTRL-G u to first break undo, so
 " that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
 
-nmap <F7> :TagbarToggle<CR>
+nnoremap <F7> :TagbarToggle<CR>
 nnoremap <F8> :buffers<CR>:buffer<Space>
 nnoremap <F9> :GundoToggle<CR>
 
@@ -220,13 +222,10 @@ nnoremap <silent> <M-F12> :BufExplorer<CR>
 nnoremap <silent> <F12> :bn<CR>
 nnoremap <silent> <S-F12> :bp<CR>
 
-map <Leader>n <plug>NERDTreeTabsToggle<CR>
-
-" personal keyboard mappings and commands
-" remove trailing spaces from all lines
-map <C-S-M> :%s/ *$//g<CR>
 " find tag
 nmap FT :tag
+" yank from cursor to end of line
+nmap Y y$
 
 "Switch between windows and maximize
 set wmh=0
@@ -238,5 +237,14 @@ map <M-F11> <C-W>_
 nmap <C-Y> :cn<CR>
 nmap <C-U> :cprev<CR>
 
+" remove trailing spaces from all lines
+map <leader>m :%s/ *$//g<CR>
+" Toggle line numbers
+map <leader>n :set invnumber number?<CR>
+" Paste toggle (,p)
+set pastetoggle=<leader>p
+map <leader>p :set invpaste paste?<CR>
+" Toggle NERDTree in all tabs
+map <Leader>t <plug>NERDTreeTabsToggle<CR>
 "}}}
 "----------------------------------------------------------------------------
