@@ -219,9 +219,8 @@ command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | d
 "----------------------------------------------------------------------------
 " Mappings: {{{
 
-" CTRL-U in insert mode deletes a lot. Use CTRL-G u to first break undo, so
-" that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
+" no ex mode, use Q for quitting
+nmap Q :q<CR>
 
 nnoremap <F7> :TagbarToggle<CR>
 nnoremap <F8> :buffers<CR>:buffer<Space>
@@ -244,8 +243,8 @@ map <C-K> <C-W>k<C-W>_
 map <M-F11> <C-W>_
 
 " Navigate quickfix list
-nmap <C-Y> :cnext<CR>
-nmap <C-U> :cprevious<CR>
+nmap <C-Y> :cprevious<CR>
+nmap <C-U> :cnext<CR>
 
 " Navigate location list
 nmap gy :lprevious<CR>
