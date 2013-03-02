@@ -33,6 +33,12 @@ Bundle 'klen/python-mode'
 Bundle 'tpope/vim-surround'
 Bundle 'majutsushi/tagbar'
 Bundle 'sjl/gundo.vim'
+" Beautify JS, HTML and CSS
+" Bundle 'michalliu/jsruntime.vim'
+" Bundle 'michalliu/jsoncodecs.vim'
+" Bundle 'michalliu/sourcebeautify.vim'
+Bundle 'maksimr/vim-jsbeautify'
+Bundle 'vim-scripts/sonoma.vim'
 " -- vim-scripts repos
 " Bundle 'L9'
 
@@ -154,6 +160,10 @@ let g:pymode_folding = 0
 " --- Gundo:
 let g:gundo_right = 1
 
+" --- Syntastic
+let g:syntastic_auto_loc_list=1
+autocmd BufNewFile,BufRead,BufEnter * SyntasticCheck
+
 "}}}
 "----------------------------------------------------------------------------
 " Functions: {{{
@@ -234,11 +244,13 @@ map <C-K> <C-W>k<C-W>_
 map <M-F11> <C-W>_
 
 " Navigate quickfix list
-nmap <C-Y> :cn<CR>
-nmap <C-U> :cprev<CR>
+nmap <C-Y> :cnext<CR>
+nmap <C-U> :cprevious<CR>
 
-" remove trailing spaces from all lines
-map <leader>m :%s/ *$//g<CR>
+" Navigate location list
+nmap gy :lprevious<CR>
+nmap gu :lnext<CR>
+
 " Toggle line numbers
 map <leader>n :set invnumber number?<CR>
 " Paste toggle (,p)
@@ -246,5 +258,7 @@ set pastetoggle=<leader>p
 map <leader>p :set invpaste paste?<CR>
 " Toggle NERDTree in all tabs
 map <Leader>t <plug>NERDTreeTabsToggle<CR>
+" remove trailing spaces from all lines
+map <leader>w :%s/ *$//g<CR>
 "}}}
 "----------------------------------------------------------------------------
