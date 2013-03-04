@@ -26,13 +26,18 @@ Bundle 'Lokaltog/vim-powerline'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'kien/ctrlp.vim'
 Bundle 'scrooloose/nerdtree'
-" Bundle 'scrooloose/syntastic'
+Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'klen/python-mode'
 Bundle 'tpope/vim-surround'
 Bundle 'majutsushi/tagbar'
 Bundle 'sjl/gundo.vim'
+" Beautify JS, HTML and CSS
+" Bundle 'michalliu/jsruntime.vim'
+" Bundle 'michalliu/jsoncodecs.vim'
+" Bundle 'michalliu/sourcebeautify.vim'
+Bundle 'maksimr/vim-jsbeautify'
 " -- vim-scripts repos
 " Bundle 'L9'
 
@@ -154,6 +159,10 @@ let g:pymode_folding = 0
 " --- Gundo:
 let g:gundo_right = 1
 
+" --- Syntastic
+let g:syntastic_auto_loc_list=1
+autocmd BufNewFile,BufRead,BufEnter * SyntasticCheck
+
 "}}}
 "----------------------------------------------------------------------------
 " Functions: {{{
@@ -209,9 +218,8 @@ command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | d
 "----------------------------------------------------------------------------
 " Mappings: {{{
 
-" CTRL-U in insert mode deletes a lot. Use CTRL-G u to first break undo, so
-" that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
+" no ex mode, use Q for quitting
+nmap Q :q<CR>
 
 nnoremap <F7> :TagbarToggle<CR>
 nnoremap <F8> :buffers<CR>:buffer<Space>
@@ -223,7 +231,7 @@ nnoremap <silent> <F12> :bn<CR>
 nnoremap <silent> <S-F12> :bp<CR>
 
 " find tag
-nmap FT :tag<Space>
+nmap FT :tag
 " yank from cursor to end of line
 nmap Y y$
 
@@ -234,8 +242,12 @@ map <C-K> <C-W>k<C-W>_
 map <M-F11> <C-W>_
 
 " Navigate quickfix list
-nmap <C-Y> :cprev<CR>
-nmap <C-U> :cn<CR>
+nmap <C-Y> :cprevious<CR>
+nmap <C-U> :cnext<CR>
+
+" Navigate location list
+nmap gy :lprevious<CR>
+nmap gu :lnext<CR>
 
 " remove trailing spaces from all lines
 map <leader>m :%s/ *$//g<CR>
