@@ -163,8 +163,8 @@ let g:pymode_folding = 0
 let g:gundo_right = 1
 
 " --- Syntastic
-let g:syntastic_auto_loc_list=1
-" autocmd BufNewFile,BufRead,BufEnter *.js,*.json SyntasticCheck
+let g:syntastic_auto_loc_list=0
+autocmd BufNewFile,BufRead,BufEnter *.js,*.json SyntasticCheck
 
 "}}}
 "----------------------------------------------------------------------------
@@ -234,7 +234,7 @@ nnoremap <silent> <F12> :bn<CR>
 nnoremap <silent> <S-F12> :bp<CR>
 
 " find tag
-nmap FT :tag
+nmap FT :tag<Space>
 " yank from cursor to end of line
 nmap Y y$
 
