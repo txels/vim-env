@@ -231,7 +231,7 @@ nnoremap <silent> <F12> :bn<CR>
 nnoremap <silent> <S-F12> :bp<CR>
 
 " find tag
-nmap FT :tag
+nmap FT :tag<Space>
 " yank from cursor to end of line
 nmap Y y$
 
