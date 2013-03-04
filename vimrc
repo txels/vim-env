@@ -38,7 +38,8 @@ Bundle 'sjl/gundo.vim'
 " Bundle 'michalliu/jsoncodecs.vim'
 " Bundle 'michalliu/sourcebeautify.vim'
 Bundle 'maksimr/vim-jsbeautify'
-Bundle 'vim-scripts/sonoma.vim'
+" Working with HTML files
+Bundle 'mattn/zencoding-vim'
 " -- vim-scripts repos
 " Bundle 'L9'
 
@@ -92,7 +93,8 @@ set wildmenu                    " Enhanced command-line completion with a menu
 " %f relative path name - %m modified flag
 " %l line - %L total lines - %p percentage - %v virtual column
 " %n buffer number - %b char under cursor - %B said char in hex
-set statusline=%f\ %m\ Line:%l/%L[%p%%]\ Col:%v\ Buf:#%n\ [%b][0x%B]
+" Commented out in favour of powerline
+" set statusline=%f\ %m\ Line:%l/%L[%p%%]\ Col:%v\ Buf:#%n\ [%b][0x%B]
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -162,7 +164,7 @@ let g:gundo_right = 1
 
 " --- Syntastic
 let g:syntastic_auto_loc_list=1
-autocmd BufNewFile,BufRead,BufEnter * SyntasticCheck
+" autocmd BufNewFile,BufRead,BufEnter *.js,*.json SyntasticCheck
 
 "}}}
 "----------------------------------------------------------------------------
