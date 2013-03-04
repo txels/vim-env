@@ -26,7 +26,7 @@ Bundle 'Lokaltog/vim-powerline'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'kien/ctrlp.vim'
 Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
+" Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'klen/python-mode'
@@ -223,7 +223,7 @@ nnoremap <silent> <F12> :bn<CR>
 nnoremap <silent> <S-F12> :bp<CR>
 
 " find tag
-nmap FT :tag
+nmap FT :tag<Space>
 " yank from cursor to end of line
 nmap Y y$
 
@@ -234,8 +234,8 @@ map <C-K> <C-W>k<C-W>_
 map <M-F11> <C-W>_
 
 " Navigate quickfix list
-nmap <C-Y> :cn<CR>
-nmap <C-U> :cprev<CR>
+nmap <C-Y> :cprev<CR>
+nmap <C-U> :cn<CR>
 
 " remove trailing spaces from all lines
 map <leader>m :%s/ *$//g<CR>
