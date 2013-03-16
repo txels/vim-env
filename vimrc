@@ -33,12 +33,14 @@ Bundle 'klen/python-mode'
 Bundle 'tpope/vim-surround'
 Bundle 'majutsushi/tagbar'
 Bundle 'sjl/gundo.vim'
-" Beautify JS, HTML and CSS
-" Bundle 'michalliu/jsruntime.vim'
-" Bundle 'michalliu/jsoncodecs.vim'
-" Bundle 'michalliu/sourcebeautify.vim'
+" Work in web, with JS, HTML and CSS/LESS...
 Bundle 'maksimr/vim-jsbeautify'
-" Working with HTML files
+Bundle 'groenewege/vim-less'
+" CSS color plugins seem nice but are very slow
+Bundle 'ap/vim-css-color'
+Bundle 'hail2u/vim-css3-syntax'
+Bundle 'othree/html5.vim'
+" Useful shortcuts for quick edit of HTML files
 Bundle 'mattn/zencoding-vim'
 " -- vim-scripts repos
 " Bundle 'L9'
@@ -87,7 +89,7 @@ set smartcase                   " override ignorecase if pattern includes upperc
 set tabstop=4                   " Number of spaces a tab in the file counts for
 set textwidth=0                 " when set to 0, do not auto-wrap lines
 set wildmenu                    " Enhanced command-line completion with a menu
-" set wildmode=longest:full       " Complete till longest common string
+set wildmode=longest:full       " Complete only till longest common string
 
 " Status line (when not using powerline):
 " %f relative path name - %m modified flag
