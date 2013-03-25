@@ -155,6 +155,7 @@ let g:Powerline_symbols = 'fancy'
 
 " --- NERDTree-tabs
 let g:nerdtree_tabs_open_on_console_startup = 1
+let NERDTreeIgnore=['\.pyc$', 'Session.vim', '\~$' ]
 
 " --- Python mode:
 let g:pymode_folding = 0
@@ -163,7 +164,7 @@ let g:pymode_folding = 0
 let g:gundo_right = 1
 
 " --- Syntastic
-let g:syntastic_auto_loc_list=0
+let g:syntastic_auto_loc_list = 0
 autocmd BufNewFile,BufRead,BufEnter *.js,*.json SyntasticCheck
 
 "}}}
