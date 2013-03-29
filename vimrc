@@ -74,7 +74,8 @@ set cursorline                  " Show a highlighted row for cursor position
 set directory=.,.backup,~/.backup,/tmp
 set encoding=utf8
 set expandtab                   " Tab key will always be expanded to spaces
-set foldmethod=marker           " Fold on markers (as used in this VIMRC file)
+"set foldmethod=marker           " Fold on markers (as used in this VIMRC file)
+set foldlevel=99                " Maximum fold level means all folds will be open
 set hidden                      " Hide buffers when abandoned, instead of unloading
 set history=50                  " keep 50 lines of command line history
 set incsearch                   " do incremental searching
@@ -132,6 +133,7 @@ if has("autocmd")
 
         " For all text files set 'textwidth' to 78 characters.
         autocmd FileType text setlocal textwidth=78
+        autocmd FileType vim setlocal foldmethod=marker
 
         " When editing a file, always jump to the last known cursor position.
         " Don't do it when the position is invalid or when inside an event handler
@@ -160,7 +162,7 @@ let g:nerdtree_tabs_open_on_console_startup = 1
 let NERDTreeIgnore=['\.pyc$', 'Session.vim', '\~$' ]
 
 " --- Python mode:
-let g:pymode_folding = 0
+let g:pymode_folding = 1
 
 " --- Gundo:
 let g:gundo_right = 1
