@@ -168,7 +168,7 @@ let g:pymode_folding = 1
 let g:gundo_right = 1
 
 " --- Syntastic
-let g:syntastic_auto_loc_list = 0
+let g:syntastic_auto_loc_list = 1
 autocmd BufNewFile,BufRead,BufEnter *.js,*.json SyntasticCheck
 
 "}}}
@@ -239,15 +239,24 @@ nnoremap <silent> <F12> :bn<CR>
 nnoremap <silent> <S-F12> :bp<CR>
 
 " find tag
-nmap FT :tag<Space>
+nmap TC :!ctags-exuberant -R<CR>
+nmap TF :tag<Space>
 " yank from cursor to end of line
 nmap Y y$
 
+" Beautify
+nmap BJ :call JsBeautify()<CR>
+nmap BH :call HtmlBeautify()<CR>
+
 "Switch between windows and maximize
 set wmh=0
-map <C-J> <C-W>j<C-W>_
-map <C-K> <C-W>k<C-W>_
+map <C-H> <C-W>h<C-W>_
+map <C-L> <C-W>l<C-W>_
 map <M-F11> <C-W>_
+
+" Move current line(s) up or down
+nmap <C-J> :m -2<CR>
+nmap <C-K> :m +1<CR>
 
 " Navigate quickfix list
 nmap <C-Y> :cprevious<CR>
