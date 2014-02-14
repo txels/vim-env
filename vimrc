@@ -171,6 +171,11 @@ let g:gundo_right = 1
 let g:syntastic_auto_loc_list = 1
 autocmd BufNewFile,BufRead,BufEnter *.js,*.json SyntasticCheck
 
+" --- ctrl-p and nerdtree
+set wildignore+=/static/*,*.pyc
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
+
 "}}}
 "----------------------------------------------------------------------------
 " Functions: {{{
@@ -259,8 +264,8 @@ nmap <C-J> :m -2<CR>
 nmap <C-K> :m +1<CR>
 
 " Navigate quickfix list
-nmap <C-Y> :cprevious<CR>
-nmap <C-U> :cnext<CR>
+nnoremap <C-Y> :cprevious<CR>
+nnoremap <C-U> :cnext<CR>
 
 " Navigate location list
 nmap gy :lprevious<CR>
@@ -271,8 +276,10 @@ map <leader>n :set invnumber number?<CR>
 " Paste toggle (,p)
 set pastetoggle=<leader>p
 map <leader>p :set invpaste paste?<CR>
+" Find file from open buffer in NERDTree
+map <leader>f :NERDTreeFind<CR>
 " Toggle NERDTree in all tabs
-map <Leader>t <plug>NERDTreeTabsToggle<CR>
+map <leader>t <plug>NERDTreeTabsToggle<CR>
 " remove trailing spaces from all lines
 map <leader>w :%s/ *$//g<CR>
 "}}}
