@@ -35,15 +35,18 @@ Bundle 'majutsushi/tagbar'
 Bundle 'sjl/gundo.vim'
 " Work in web, with JS, HTML and CSS/LESS...
 Bundle 'maksimr/vim-jsbeautify'
+Bundle 'elzr/vim-json'
 Bundle 'groenewege/vim-less'
 " CSS color plugins seem nice but are very slow
 Bundle 'ap/vim-css-color'
 Bundle 'hail2u/vim-css3-syntax'
 Bundle 'othree/html5.vim'
 " Useful shortcuts for quick edit of HTML files
-Bundle 'mattn/zencoding-vim'
+" Bundle 'mattn/zencoding-vim'
 " -- vim-scripts repos
 " Bundle 'L9'
+" Other file types
+Bundle 'gisraptor/vim-lilypond-integrator'
 
 filetype plugin indent on     " Required by Vundle.
                               " Enables uploading plugin and indent files for filetypes
@@ -122,9 +125,6 @@ if &t_Co > 2 || has("gui_running")
     set hlsearch
 endif
 
-" File type (and syntax highlight) JSON files as javascript
-autocmd BufNewFile,BufRead *.json set ft=javascript
-
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
     " Put these in an autocmd group, so that we can delete them easily.
@@ -168,8 +168,8 @@ let g:pymode_folding = 1
 let g:gundo_right = 1
 
 " --- Syntastic
-let g:syntastic_auto_loc_list = 1
-autocmd BufNewFile,BufRead,BufEnter *.js,*.json SyntasticCheck
+let g:syntastic_auto_loc_list = 0
+autocmd BufNewFile,BufRead,BufEnter *.js SyntasticCheck
 
 " --- ctrl-p and nerdtree
 set wildignore+=/static/*,*.pyc
@@ -244,7 +244,7 @@ nnoremap <silent> <F12> :bn<CR>
 nnoremap <silent> <S-F12> :bp<CR>
 
 " find tag
-nmap TC :!ctags-exuberant -R<CR>
+nmap TC :!ctags-exuberant --languages=python -R<CR>
 nmap TF :tag<Space>
 " yank from cursor to end of line
 nmap Y y$
