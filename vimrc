@@ -41,6 +41,8 @@ Bundle 'groenewege/vim-less'
 Bundle 'ap/vim-css-color'
 Bundle 'hail2u/vim-css3-syntax'
 Bundle 'othree/html5.vim'
+" color schemes
+Bundle 'altercation/vim-colors-solarized'
 " Useful shortcuts for quick edit of HTML files
 " Bundle 'mattn/zencoding-vim'
 " -- vim-scripts repos
@@ -91,9 +93,11 @@ set shiftwidth=4                " Spaces to use for each step of autoindent
 set showcmd                     " display incomplete commands on lower right corner
 set smartcase                   " override ignorecase if pattern includes uppercase
 set tabstop=4                   " Number of spaces a tab in the file counts for
+set termencoding=utf8
 set textwidth=0                 " when set to 0, do not auto-wrap lines
 set wildmenu                    " Enhanced command-line completion with a menu
 set wildmode=longest:full       " Complete only till longest common string
+
 
 " Status line (when not using powerline):
 " %f relative path name - %m modified flag
@@ -153,7 +157,6 @@ endif " has("autocmd")
 
 " --- Powerline
 " newer version:  set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-" disabled as I could not get patched fonts to work
 let g:Powerline_symbols = 'fancy'
 "let g:Powerline_colorscheme = 'default'
 
@@ -234,14 +237,13 @@ command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | d
 " no ex mode, use Q for quitting
 nmap Q :q<CR>
 
-nnoremap <F7> :TagbarToggle<CR>
 nnoremap <F8> :buffers<CR>:buffer<Space>
+nnoremap <silent> <S-F8> :BufExplorer<CR>
 nnoremap <F9> :GundoToggle<CR>
 
 "Buffers - explore/next/previous: Alt-F12, F12, Shift-F12.
-nnoremap <silent> <M-F12> :BufExplorer<CR>
-nnoremap <silent> <F12> :bn<CR>
-nnoremap <silent> <S-F12> :bp<CR>
+nnoremap <silent> <F7> :bn<CR>
+nnoremap <silent> <S-F7> :bp<CR>
 
 " find tag
 nmap TC :!ctags-exuberant --languages=python -R<CR>
@@ -257,7 +259,6 @@ nmap BH :call HtmlBeautify()<CR>
 set wmh=0
 map <C-H> <C-W>h<C-W>_
 map <C-L> <C-W>l<C-W>_
-map <M-F11> <C-W>_
 
 " Move current line(s) up or down
 nmap <C-J> :m -2<CR>
