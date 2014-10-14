@@ -15,40 +15,41 @@ set runtimepath+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " let Vundle manage Vundle required!
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
 " -- original repos on github
-Bundle 'thisivan/vim-bufexplorer'
-Bundle 'tpope/vim-fugitive'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'Lokaltog/vim-powerline'
-" Bundle 'Lokaltog/powerline'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'kien/ctrlp.vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'jistr/vim-nerdtree-tabs'
-Bundle 'klen/python-mode'
-Bundle 'tpope/vim-surround'
-Bundle 'majutsushi/tagbar'
-Bundle 'sjl/gundo.vim'
+Plugin 'thisivan/vim-bufexplorer'
+Plugin 'tpope/vim-fugitive'
+Plugin 'Lokaltog/vim-easymotion'
+" Plugin 'Lokaltog/vim-powerline'
+" Plugin 'Lokaltog/powerline'
+Plugin 'bling/vim-airline'
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'klen/python-mode'
+Plugin 'tpope/vim-surround'
+Plugin 'majutsushi/tagbar'
+Plugin 'sjl/gundo.vim'
 " Work in web, with JS, HTML and CSS/LESS...
-Bundle 'maksimr/vim-jsbeautify'
-Bundle 'elzr/vim-json'
-Bundle 'groenewege/vim-less'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'elzr/vim-json'
+Plugin 'groenewege/vim-less'
 " CSS color plugins seem nice but are very slow
-Bundle 'ap/vim-css-color'
-Bundle 'hail2u/vim-css3-syntax'
-Bundle 'othree/html5.vim'
+Plugin 'ap/vim-css-color'
+Plugin 'hail2u/vim-css3-syntax'
+Plugin 'othree/html5.vim'
 " color schemes
-Bundle 'altercation/vim-colors-solarized'
+Plugin 'altercation/vim-colors-solarized'
 " Useful shortcuts for quick edit of HTML files
-" Bundle 'mattn/zencoding-vim'
+" Plugin 'mattn/zencoding-vim'
 " -- vim-scripts repos
-" Bundle 'L9'
+" Plugin 'L9'
 " Other file types
-Bundle 'gisraptor/vim-lilypond-integrator'
+Plugin 'gisraptor/vim-lilypond-integrator'
 
 filetype plugin indent on     " Required by Vundle.
                               " Enables uploading plugin and indent files for filetypes
@@ -71,7 +72,9 @@ colorscheme txels-dark
 set backspace=indent,eol,start  " allow backspacing over everything in insert mode
 set backup                      " keep a backup file
 set backupdir=.backup,~/.backup,.,/tmp   " places where to save backup files, in given order
-set clipboard+=unnamed
+if $TMUX == ''
+    set clipboard+=unnamed
+endif
 set colorcolumn=80              " Add a visible end-of-line column
 set cpoptions+=$                " 'cw' etc put $ at end instead of deleting/replacing text
 set cursorcolumn                " Show a highlighted column for cursor position
@@ -138,6 +141,7 @@ if has("autocmd")
         " For all text files set 'textwidth' to 78 characters.
         autocmd FileType text setlocal textwidth=78
         autocmd FileType vim setlocal foldmethod=marker
+        autocmd BufNewFile,BufRead *.md set syntax=markdown
 
         " When editing a file, always jump to the last known cursor position.
         " Don't do it when the position is invalid or when inside an event handler
@@ -159,6 +163,10 @@ endif " has("autocmd")
 " newer version:  set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_symbols = 'fancy'
 "let g:Powerline_colorscheme = 'default'
+
+" --- airline
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
 
 " --- NERDTree-tabs
 let g:nerdtree_tabs_open_on_console_startup = 1
