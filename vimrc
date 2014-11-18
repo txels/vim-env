@@ -23,17 +23,19 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'Lokaltog/vim-easymotion'
 " Plugin 'Lokaltog/vim-powerline'
 " Plugin 'Lokaltog/powerline'
-Plugin 'bling/vim-airline'
+Plugin 'bling/vim-airline'           " Improved status line
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-Plugin 'kien/ctrlp.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'scrooloose/nerdcommenter'
+Plugin 'kien/ctrlp.vim'              " Search file name with Ctrl-P
+Plugin 'Shougo/unite.vim'            " Search across multiple sources
+Plugin 'scrooloose/nerdtree'         " Navigate files in a tree
+Plugin 'scrooloose/syntastic'        " Syntax highlighting
+Plugin 'scrooloose/nerdcommenter'    " Shortcuts to comment code in and out
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'klen/python-mode'
 Plugin 'tpope/vim-surround'
 Plugin 'majutsushi/tagbar'
-Plugin 'sjl/gundo.vim'
+Plugin 'sjl/gundo.vim'               " browse the undo history (F9)
+Plugin 'mileszs/ack.vim'             " :Ack - grep replacement
 " Work in web, with JS, HTML and CSS/LESS...
 Plugin 'maksimr/vim-jsbeautify'
 Plugin 'elzr/vim-json'
@@ -88,7 +90,8 @@ set hidden                      " Hide buffers when abandoned, instead of unload
 set history=50                  " keep 50 lines of command line history
 set incsearch                   " do incremental searching
 set laststatus=2                " always put a status line, even if there is only one window
-set noignorecase                " do not ignore case for search
+set number                      " always show line numbers
+set ignorecase                  " ignore case for search
 set ruler                       " show the cursor position all the time
 set scrolloff=4                 " minimal number of screen lines above and below cursor
 set shiftround                  " > and < will round indent to multiple of shiftwidth
@@ -141,7 +144,7 @@ if has("autocmd")
         " For all text files set 'textwidth' to 78 characters.
         autocmd FileType text setlocal textwidth=78
         autocmd FileType vim setlocal foldmethod=marker
-        autocmd BufNewFile,BufRead *.md set syntax=markdown
+        autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
         " When editing a file, always jump to the last known cursor position.
         " Don't do it when the position is invalid or when inside an event handler
@@ -161,19 +164,23 @@ endif " has("autocmd")
 
 " --- Powerline
 " newer version:  set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-let g:Powerline_symbols = 'fancy'
+" let g:Powerline_symbols = 'fancy'
 "let g:Powerline_colorscheme = 'default'
 
 " --- airline
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#branch#enabled = 0
 
-" --- NERDTree-tabs
-let g:nerdtree_tabs_open_on_console_startup = 1
+" --- NERDTree and NERDTreeTabs
 let NERDTreeIgnore=['\.pyc$', 'Session.vim', '\~$' ]
+" let g:nerdtree_tabs_open_on_console_startup = 1
+" show tree only if invoked with no file
+autocmd VimEnter * if argc() == 0 | NERDTree | endif
 
 " --- Python mode:
 let g:pymode_folding = 1
+let g:pymode_rope = 0
 
 " --- Gundo:
 let g:gundo_right = 1
@@ -183,8 +190,8 @@ let g:syntastic_auto_loc_list = 0
 autocmd BufNewFile,BufRead,BufEnter *.js SyntasticCheck
 
 " --- ctrl-p and nerdtree
-set wildignore+=/static/*,*.pyc
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+set wildignore+=*~,/static/*,*.pyc,/envs/*,/.venv/*
+let g:ctrlp_custom_ignore = '\v[\/](\.git|\.hg|\.svn|envs|\.venv|lib|node_modules|coverage|tools|data)$'
 
 
 "}}}
@@ -287,6 +294,8 @@ set pastetoggle=<leader>p
 map <leader>p :set invpaste paste?<CR>
 " Find file from open buffer in NERDTree
 map <leader>f :NERDTreeFind<CR>
+" Search word under cursor
+nnoremap <Leader>s :Ack <C-r><C-w><CR>
 " Toggle NERDTree in all tabs
 map <leader>t <plug>NERDTreeTabsToggle<CR>
 " remove trailing spaces from all lines
