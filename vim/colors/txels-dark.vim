@@ -8,12 +8,13 @@ let g:colors_name="txels-dark"
 let python_highlight_all = 1
 let c_gnu = 1
 
-hi ColorColumn    ctermfg=None     ctermbg=17       cterm=None
+hi ColorColumn    ctermfg=None     ctermbg=237      cterm=None
 hi Comment        ctermfg=243      ctermbg=None     cterm=None
 hi Constant       ctermfg=69       ctermbg=None     cterm=None
-hi CursorColumn   ctermfg=None     ctermbg=235      cterm=None
 hi Cursor         ctermfg=253      ctermbg=57       cterm=None
-hi CursorLine     ctermfg=None     ctermbg=235      cterm=None
+hi CursorColumn   ctermfg=None     ctermbg=232      cterm=None
+" hi CursorLine     ctermfg=None     ctermbg=235      cterm=None
+" hi CursorLine     term=bold     cterm=bold   ctermbg=232
 hi DiffText       ctermfg=165      ctermbg=244      cterm=None
 hi Directory      ctermfg=184      ctermbg=None     cterm=Bold
 hi Error          ctermfg=None     ctermbg=196      cterm=Bold
