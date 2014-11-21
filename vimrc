@@ -191,7 +191,7 @@ autocmd BufNewFile,BufRead,BufEnter *.js SyntasticCheck
 
 " --- ctrl-p and nerdtree
 set wildignore+=*~,/static/*,*.pyc,/envs/*,/.venv/*
-let g:ctrlp_custom_ignore = '\v[\/](\.git|\.hg|\.svn|envs|\.venv|lib|node_modules|coverage|tools|data)$'
+let g:ctrlp_custom_ignore = '\v[\/](\.git|\.hg|\.svn|envs|\.venv|lib|node_modules|coverage|tools|data|htmlcov)$'
 
 
 "}}}
@@ -261,7 +261,7 @@ nnoremap <silent> <F7> :bn<CR>
 nnoremap <silent> <S-F7> :bp<CR>
 
 " find tag
-nmap TC :!ctags-exuberant --languages=python -R<CR>
+nmap TC :!ctags --languages=python -R<CR>
 nmap TF :tag<Space>
 " yank from cursor to end of line
 nmap Y y$
