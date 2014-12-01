@@ -298,7 +298,7 @@ map <leader>f :NERDTreeFind<CR>
 nnoremap <Leader>s :Ack <C-r><C-w><CR>
 " Toggle NERDTree in all tabs
 map <leader>t <plug>NERDTreeTabsToggle<CR>
-" remove trailing spaces from all lines
-map <leader>w :%s/ *$//g<CR>
+" remove trailing spaces from all lines (without search highlighting)
+map <leader>w :%s/ *$//g<CR>:let @/ = ""<CR>
 "}}}
 "----------------------------------------------------------------------------
