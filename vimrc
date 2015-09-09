@@ -20,38 +20,39 @@ Plugin 'gmarik/vundle'
 " -- original repos on github
 Plugin 'thisivan/vim-bufexplorer'
 Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'Lokaltog/vim-easymotion'
 " Plugin 'Lokaltog/vim-powerline'
 " Plugin 'Lokaltog/powerline'
 Plugin 'bling/vim-airline'           " Improved status line
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'kien/ctrlp.vim'              " Search file name with Ctrl-P
-Plugin 'Shougo/unite.vim'            " Search across multiple sources
+" Plugin 'Shougo/unite.vim'            " Search across multiple sources
 Plugin 'scrooloose/nerdtree'         " Navigate files in a tree
 Plugin 'scrooloose/syntastic'        " Syntax highlighting
 Plugin 'scrooloose/nerdcommenter'    " Shortcuts to comment code in and out
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'klen/python-mode'
 Plugin 'tpope/vim-surround'
-Plugin 'majutsushi/tagbar'
+" Plugin 'majutsushi/tagbar'
 Plugin 'sjl/gundo.vim'               " browse the undo history (F9)
 Plugin 'mileszs/ack.vim'             " :Ack - grep replacement
 " Work in web, with JS, HTML and CSS/LESS...
 Plugin 'maksimr/vim-jsbeautify'
 Plugin 'elzr/vim-json'
-Plugin 'groenewege/vim-less'
+" Plugin 'groenewege/vim-less'
 " CSS color plugins seem nice but are very slow
-Plugin 'ap/vim-css-color'
-Plugin 'hail2u/vim-css3-syntax'
+" Plugin 'ap/vim-css-color'
+" Plugin 'hail2u/vim-css3-syntax'
 Plugin 'othree/html5.vim'
 " color schemes
-Plugin 'altercation/vim-colors-solarized'
+" Plugin 'altercation/vim-colors-solarized'
 " Useful shortcuts for quick edit of HTML files
 " Plugin 'mattn/zencoding-vim'
 " -- vim-scripts repos
 " Plugin 'L9'
 " Other file types
-Plugin 'gisraptor/vim-lilypond-integrator'
+" Plugin 'gisraptor/vim-lilypond-integrator'
 
 filetype plugin indent on     " Required by Vundle.
                               " Enables uploading plugin and indent files for filetypes
@@ -68,11 +69,8 @@ filetype plugin indent on     " Required by Vundle.
 "}}}
 "----------------------------------------------------------------------------
 " Personalised settings: {{{
-
-colorscheme txels-dark
-
 set backspace=indent,eol,start  " allow backspacing over everything in insert mode
-set backup                      " keep a backup file
+set nobackup                    " do not keep a backup file
 set backupdir=.backup,~/.backup,.,/tmp   " places where to save backup files, in given order
 if $TMUX == ''
     set clipboard+=unnamed
@@ -98,9 +96,11 @@ set shiftround                  " > and < will round indent to multiple of shift
 set shiftwidth=4                " Spaces to use for each step of autoindent
 set showcmd                     " display incomplete commands on lower right corner
 set smartcase                   " override ignorecase if pattern includes uppercase
+set noswapfile
 set tabstop=4                   " Number of spaces a tab in the file counts for
 set termencoding=utf8
 set textwidth=0                 " when set to 0, do not auto-wrap lines
+set nowb
 set wildmenu                    " Enhanced command-line completion with a menu
 set wildmode=longest:full       " Complete only till longest common string
 
@@ -131,7 +131,7 @@ endif
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
-    syntax on
+    syntax enable
     set hlsearch
 endif
 
@@ -173,7 +173,7 @@ let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#branch#enabled = 0
 
 " --- NERDTree and NERDTreeTabs
-let NERDTreeIgnore=['\.pyc$', 'Session.vim', '\~$' ]
+let NERDTreeIgnore=['\.pyc$', 'Session.vim', '\~$', '__pycache__']
 " let g:nerdtree_tabs_open_on_console_startup = 1
 " show tree only if invoked with no file
 autocmd VimEnter * if argc() == 0 | NERDTree | endif
@@ -191,8 +191,19 @@ autocmd BufNewFile,BufRead,BufEnter *.js SyntasticCheck
 
 " --- ctrl-p and nerdtree
 set wildignore+=*~,/static/*,*.pyc,/envs/*,/.venv/*
-let g:ctrlp_custom_ignore = '\v[\/](\.git|\.hg|\.svn|envs|\.venv|lib|node_modules|coverage|tools|data|htmlcov)$'
-
+let g:ctrlp_custom_ignore = '\v[\/](\.git|\.hg|\.svn|envs|\.venv|lib|node_modules|jspm_modules|coverage|tools|data|htmlcov|__pycache__)$'
+let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
+      \ --ignore .git
+      \ --ignore .cache
+      \ --ignore envs
+      \ --ignore lib
+      \ --ignore node_modules
+      \ --ignore coverage
+      \ --ignore .svn
+      \ --ignore .hg
+      \ --ignore .DS_Store
+      \ --ignore "**/*.pyc"
+      \ -g ""'
 
 "}}}
 "----------------------------------------------------------------------------
@@ -249,6 +260,10 @@ command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | d
 "----------------------------------------------------------------------------
 " Mappings: {{{
 
+" move across wrapped lines
+map j gj
+map k gk
+
 " no ex mode, use Q for quitting
 nmap Q :q<CR>
 
@@ -256,7 +271,7 @@ nnoremap <F8> :buffers<CR>:buffer<Space>
 nnoremap <silent> <S-F8> :BufExplorer<CR>
 nnoremap <F9> :GundoToggle<CR>
 
-"Buffers - explore/next/previous: Alt-F12, F12, Shift-F12.
+"Buffers - next/previous: F7, Shift-F7.
 nnoremap <silent> <F7> :bn<CR>
 nnoremap <silent> <S-F7> :bp<CR>
 
@@ -287,18 +302,24 @@ nnoremap <C-U> :cnext<CR>
 nmap gy :lprevious<CR>
 nmap gu :lnext<CR>
 
+" Find file from open buffer in NERDTree
+map <leader>f :NERDTreeFind<CR>
+" Toggle git bLame
+map <leader>l :Gblame<CR>
 " Toggle line numbers
 map <leader>n :set invnumber number?<CR>
 " Paste toggle (,p)
 set pastetoggle=<leader>p
 map <leader>p :set invpaste paste?<CR>
-" Find file from open buffer in NERDTree
-map <leader>f :NERDTreeFind<CR>
 " Search word under cursor
 nnoremap <Leader>s :Ack <C-r><C-w><CR>
 " Toggle NERDTree in all tabs
 map <leader>t <plug>NERDTreeTabsToggle<CR>
 " remove trailing spaces from all lines (without search highlighting)
-map <leader>w :%s/ *$//g<CR>:let @/ = ""<CR>
+map <leader>w :%s/ *$//g<CR>:let @/ = ""<CR><C-O>
+map <leader>x :let @/ = ""<CR>
 "}}}
 "----------------------------------------------------------------------------
+
+" Set colorscheme last to guarantee proper syntax highlighting
+colorscheme txels-dark

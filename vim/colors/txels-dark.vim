@@ -8,13 +8,17 @@ let g:colors_name="txels-dark"
 let python_highlight_all = 1
 let c_gnu = 1
 
+" Syntax matching rules
+syn match Braces display '[{}()\[\]]'
+
+hi Braces         ctermfg=89
 hi ColorColumn    ctermfg=None     ctermbg=17       cterm=None
 hi Comment        ctermfg=243      ctermbg=None     cterm=None
 hi Constant       ctermfg=69       ctermbg=None     cterm=None
 hi Cursor         ctermfg=253      ctermbg=57       cterm=None
 hi CursorColumn   ctermfg=None     ctermbg=237      cterm=None
 " hi CursorLine     ctermfg=None     ctermbg=235      cterm=None
-hi CursorLine     term=bold        ctermbg=237      cterm=bold
+hi CursorLine     ctermfg=None     ctermbg=237      cterm=bold
 hi DiffText       ctermfg=165      ctermbg=244      cterm=None
 hi Directory      ctermfg=184      ctermbg=None     cterm=Bold
 hi Error          ctermfg=None     ctermbg=196      cterm=Bold
@@ -25,7 +29,7 @@ hi Identifier     ctermfg=142      ctermbg=None     cterm=Bold
 hi Ignore         ctermfg=221      ctermbg=None     cterm=Bold
 hi LineNr         ctermfg=233      ctermbg=238      cterm=None
 hi NonText        ctermfg=105      ctermbg=None     cterm=Bold
-hi Normal         ctermfg=252      ctermbg=232      cterm=None
+hi Normal         ctermfg=252      ctermbg=235      cterm=None
 hi Pmenu          ctermfg=62       ctermbg=233      cterm=None
 hi PmenuSbar      ctermfg=247      ctermbg=233      cterm=Bold
 hi PmenuSel       ctermfg=69       ctermbg=232      cterm=Bold
