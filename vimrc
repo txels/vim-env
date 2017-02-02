@@ -1,15 +1,4 @@
-"----------------------------------------------------------------------------
-" VIM configuration file
-" Author: Carles Barrobés
-"----------------------------------------------------------------------------
 
-" Change mapleader
-let mapleader=","
-
-"----------------------------------------------------------------------------
-" Vundle: {{{
-
-set nocompatible              " be iMproved
 filetype off                  " required!
 set runtimepath+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -22,31 +11,33 @@ Plugin 'thisivan/vim-bufexplorer'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'Lokaltog/vim-easymotion'
-" Plugin 'Lokaltog/vim-powerline'
-" Plugin 'Lokaltog/powerline'
 Plugin 'bling/vim-airline'           " Improved status line
 " Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'kien/ctrlp.vim'              " Search file name with Ctrl-P
-" Plugin 'Shougo/unite.vim'            " Search across multiple sources
 Plugin 'scrooloose/nerdtree'         " Navigate files in a tree
 Plugin 'scrooloose/syntastic'        " Syntax highlighting
 Plugin 'scrooloose/nerdcommenter'    " Shortcuts to comment code in and out
 Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'klen/python-mode'
+" Plugin 'klen/python-mode'
+Plugin 'tweekmonster/braceless.vim'  " For indent-based langs like python
+Plugin 'nvie/vim-flake8'
+" Plugin 'fisadev/vim-isort'           " integrate isort for python import sorting
 Plugin 'tpope/vim-surround'
 " Plugin 'majutsushi/tagbar'
 Plugin 'sjl/gundo.vim'               " browse the undo history (F9)
 Plugin 'mileszs/ack.vim'             " :Ack - grep replacement
+" Plugin 'grassdog/tagman.vim'         " Making using ctags easier
 " Work in web, with JS, HTML and CSS/LESS...
 Plugin 'maksimr/vim-jsbeautify'
 Plugin 'elzr/vim-json'
-" Plugin 'groenewege/vim-less'
+Plugin 'groenewege/vim-less'
 " CSS color plugins seem nice but are very slow
-" Plugin 'ap/vim-css-color'
+Plugin 'ap/vim-css-color'
 " Plugin 'hail2u/vim-css3-syntax'
-Plugin 'othree/html5.vim'
+" Plugin 'othree/html5.vim'
 " color schemes
 " Plugin 'altercation/vim-colors-solarized'
+Plugin 'morhetz/gruvbox'
 " Useful shortcuts for quick edit of HTML files
 " Plugin 'mattn/zencoding-vim'
 " -- vim-scripts repos
@@ -80,7 +71,7 @@ set cpoptions+=$                " 'cw' etc put $ at end instead of deleting/repl
 set cursorcolumn                " Show a highlighted column for cursor position
 set cursorline                  " Show a highlighted row for cursor position
 set directory=.,.backup,~/.backup,/tmp
-set encoding=utf8
+" set encoding=utf8    -- fails on neovim
 set expandtab                   " Tab key will always be expanded to spaces
 "set foldmethod=marker           " Fold on markers (as used in this VIMRC file)
 set foldlevel=99                " Maximum fold level means all folds will be open
@@ -145,6 +136,8 @@ if has("autocmd")
         autocmd FileType text setlocal textwidth=78
         autocmd FileType vim setlocal foldmethod=marker
         autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+        autocmd BufRead,BufNewFile *.jenkinsfile set filetype=groovy
+        autocmd FileType python BracelessEnable +indent +fold
 
         " When editing a file, always jump to the last known cursor position.
         " Don't do it when the position is invalid or when inside an event handler
@@ -167,10 +160,15 @@ endif " has("autocmd")
 " let g:Powerline_symbols = 'fancy'
 "let g:Powerline_colorscheme = 'default'
 
+" --- ack
+let g:ackprg = 'ag --vimgrep'
+
 " --- airline
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#branch#enabled = 0
+let g:airline_section_b = ''
+" let g:airline_section_z = ''
 
 " --- NERDTree and NERDTreeTabs
 let NERDTreeIgnore=['\.pyc$', 'Session.vim', '\~$', '__pycache__']
@@ -182,16 +180,26 @@ autocmd VimEnter * if argc() == 0 | NERDTree | endif
 let g:pymode_folding = 1
 let g:pymode_rope = 0
 
+" --- flake8
+autocmd BufWritePost *.py call Flake8()
+let g:flake8_cmd = '/Users/carles/bin/flake8.3'
+
+" --- isort
+" let g:vim_isort_map = '<C-i>'
+
 " --- Gundo:
 let g:gundo_right = 1
 
 " --- Syntastic
 let g:syntastic_auto_loc_list = 0
 autocmd BufNewFile,BufRead,BufEnter *.js SyntasticCheck
+let g:syntastic_python_python_exec = '/usr/local/var/pyenv/versions/3.4.3/bin/python'
+let g:syntastic_python_checkers = []
 
 " --- ctrl-p and nerdtree
 set wildignore+=*~,/static/*,*.pyc,/envs/*,/.venv/*
-let g:ctrlp_custom_ignore = '\v[\/](\.git|\.hg|\.svn|envs|\.venv|lib|node_modules|jspm_modules|coverage|tools|data|htmlcov|__pycache__)$'
+let g:ctrlp_custom_ignore = '\v[\/](\_notrack|\.atom|\.gradle|\.git|\.hg|\.svn|envs|\.venv|lib|node_modules|jspm_modules|coverage|tools|data|htmlcov|__pycache__)$'
+" relies on ag for searching (https://github.com/ggreer/the_silver_searcher)
 let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
       \ --ignore .git
       \ --ignore .cache
@@ -276,7 +284,7 @@ nnoremap <silent> <F7> :bn<CR>
 nnoremap <silent> <S-F7> :bp<CR>
 
 " find tag
-nmap TC :!ctags --languages=python -R<CR>
+nmap TC :!ctags --languages=python,javascript,java -R<CR>
 nmap TF :tag<Space>
 " yank from cursor to end of line
 nmap Y y$
@@ -284,6 +292,9 @@ nmap Y y$
 " Beautify
 nmap BJ :call JsBeautify()<CR>
 nmap BH :call HtmlBeautify()<CR>
+
+" Find debug statements
+nnoremap FD :Ack --py pdb.set_trace<CR>
 
 "Switch between windows and maximize
 set wmh=0
@@ -302,6 +313,9 @@ nnoremap <C-U> :cnext<CR>
 nmap gy :lprevious<CR>
 nmap gu :lnext<CR>
 
+"let mapleader = ","
+map <leader>b Oimport ipdb; ipdb.set_trace()<ESC>:w<CR>
+
 " Find file from open buffer in NERDTree
 map <leader>f :NERDTreeFind<CR>
 " Toggle git bLame
@@ -319,7 +333,17 @@ map <leader>t <plug>NERDTreeTabsToggle<CR>
 map <leader>w :%s/ *$//g<CR>:let @/ = ""<CR><C-O>
 map <leader>x :let @/ = ""<CR>
 "}}}
+
+
+imap <C-L> () => {<CR>
+
 "----------------------------------------------------------------------------
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+let g:gruvbox_bold=1
+let g:gruvbox_italic=1
+let g:gruvbox_italicize_comments=1
 
 " Set colorscheme last to guarantee proper syntax highlighting
-colorscheme txels-dark
+" colorscheme txels-dark
+colorscheme gruvbox
+set background=dark
