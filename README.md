@@ -7,7 +7,7 @@ Version 2, using Vundle as a submodule
 Clone repo and submodules:
 
 ```
-git clone git@bitbucket.org:txels/vim-env.git
+git clone git@github.com:txels/vim-env.git
 cd vim-env
 git submodule init
 git submodule update
