@@ -23,9 +23,14 @@ Within vim, install/update bundles:
 
 Fonts for Powerline:
 
+On linux only:
+
 ```
 mkdir ~/.fonts
 pushd ~/.fonts
 git clone https://github.com/scotu/ubuntu-mono-powerline.git
+
 fc-cache -vf ~/.fonts
 ```
+
+On mac: download and double click on [this](https://github.com/powerline/fonts/blob/master/UbuntuMono/Ubuntu%20Mono%20derivative%20Powerline.ttf)
