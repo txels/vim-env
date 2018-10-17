@@ -18,12 +18,13 @@ Plugin 'scrooloose/nerdtree'         " Navigate files in a tree
 Plugin 'scrooloose/syntastic'        " Syntax highlighting
 Plugin 'scrooloose/nerdcommenter'    " Shortcuts to comment code in and out
 Plugin 'jistr/vim-nerdtree-tabs'
-" Plugin 'klen/python-mode'
+" Plugin 'python-mode/python-mode'
+Plugin 'hdima/python-syntax'
+Plugin 'vim-scripts/indentpython.vim'
 Plugin 'tweekmonster/braceless.vim'  " For indent-based langs like python
 Plugin 'nvie/vim-flake8'
 " Plugin 'fisadev/vim-isort'           " integrate isort for python import sorting
 Plugin 'tpope/vim-surround'
-" Plugin 'majutsushi/tagbar'
 Plugin 'sjl/gundo.vim'               " browse the undo history (F9)
 Plugin 'mileszs/ack.vim'             " :Ack - grep replacement
 " Plugin 'grassdog/tagman.vim'         " Making using ctags easier
@@ -44,6 +45,9 @@ Plugin 'morhetz/gruvbox'
 " Plugin 'L9'
 " Other file types
 " Plugin 'gisraptor/vim-lilypond-integrator'
+" Plugin 'derekwyatt/vim-scala'
+Plugin 'editorconfig/editorconfig-vim'
+
 
 filetype plugin indent on     " Required by Vundle.
                               " Enables uploading plugin and indent files for filetypes
@@ -66,7 +70,7 @@ set backupdir=.backup,~/.backup,.,/tmp   " places where to save backup files, in
 if $TMUX == ''
     set clipboard+=unnamed
 endif
-set colorcolumn=80              " Add a visible end-of-line column
+set colorcolumn=100              " Add a visible end-of-line column
 set cpoptions+=$                " 'cw' etc put $ at end instead of deleting/replacing text
 set cursorcolumn                " Show a highlighted column for cursor position
 set cursorline                  " Show a highlighted row for cursor position
@@ -133,7 +137,7 @@ if has("autocmd")
         au!
 
         " For all text files set 'textwidth' to 78 characters.
-        autocmd FileType text setlocal textwidth=78
+        " autocmd FileType text setlocal textwidth=78
         autocmd FileType vim setlocal foldmethod=marker
         autocmd BufNewFile,BufReadPost *.md set filetype=markdown
         autocmd BufRead,BufNewFile *.jenkinsfile set filetype=groovy
@@ -171,18 +175,29 @@ let g:airline_section_b = ''
 " let g:airline_section_z = ''
 
 " --- NERDTree and NERDTreeTabs
-let NERDTreeIgnore=['\.pyc$', 'Session.vim', '\~$', '__pycache__']
+let NERDTreeIgnore=['\.pyc$', 'Session.vim', '\~$', '__pycache__', '^\.$', '^\..$']
+let NERDTreeShowHidden=1
 " let g:nerdtree_tabs_open_on_console_startup = 1
 " show tree only if invoked with no file
 autocmd VimEnter * if argc() == 0 | NERDTree | endif
 
-" --- Python mode:
+" --- Python:
 let g:pymode_folding = 1
 let g:pymode_rope = 0
+let g:pymode_python = 'python3'
+
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+" set textwidth=79
+au BufRead,BufNewFile,BufEnter *.py set expandtab
+au BufRead,BufNewFile,BufEnter *.py set autoindent
+set fileformat=unix
+au BufRead,BufNewFile Makefile* set noexpandtab
 
 " --- flake8
 autocmd BufWritePost *.py call Flake8()
-let g:flake8_cmd = '/Users/carles/bin/flake8.3'
+let g:flake8_cmd = 'flake8'
 
 " --- isort
 " let g:vim_isort_map = '<C-i>'
@@ -192,9 +207,10 @@ let g:gundo_right = 1
 
 " --- Syntastic
 let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
 autocmd BufNewFile,BufRead,BufEnter *.js SyntasticCheck
-let g:syntastic_python_python_exec = '/usr/local/var/pyenv/versions/3.4.3/bin/python'
-let g:syntastic_python_checkers = []
+let g:syntastic_python_python_exec = '/usr/local/var/pyenv/versions/3.6.1/bin/python'
+let g:syntastic_python_checkers = ['flake8']
 
 " --- ctrl-p and nerdtree
 set wildignore+=*~,/static/*,*.pyc,/envs/*,/.venv/*
@@ -212,6 +228,9 @@ let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
       \ --ignore .DS_Store
       \ --ignore "**/*.pyc"
       \ -g ""'
+
+" --- editorconfig
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 "}}}
 "----------------------------------------------------------------------------
@@ -290,7 +309,7 @@ nmap TF :tag<Space>
 nmap Y y$
 
 " Beautify
-nmap BJ :call JsBeautify()<CR>
+nmap BJ :%!jq .<CR>
 nmap BH :call HtmlBeautify()<CR>
 
 " Find debug statements
@@ -298,12 +317,12 @@ nnoremap FD :Ack --py pdb.set_trace<CR>
 
 "Switch between windows and maximize
 set wmh=0
-map <C-H> <C-W>h<C-W>_
+"map <C-H> <C-W>h<C-W>_  (not working, may be overriden by plugin)
 map <C-L> <C-W>l<C-W>_
 
 " Move current line(s) up or down
-nmap <C-J> :m -2<CR>
-nmap <C-K> :m +1<CR>
+nmap <C-J> :move -2<CR>
+nmap <C-K> :move +1<CR>
 
 " Navigate quickfix list
 nnoremap <C-Y> :cprevious<CR>
@@ -314,6 +333,7 @@ nmap gy :lprevious<CR>
 nmap gu :lnext<CR>
 
 "let mapleader = ","
+nnoremap <leader>a :autocmd TextChanged,TextChangedI <buffer> silent write<CR>
 map <leader>b Oimport ipdb; ipdb.set_trace()<ESC>:w<CR>
 
 " Find file from open buffer in NERDTree
