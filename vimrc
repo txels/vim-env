@@ -32,6 +32,7 @@ Plugin 'mileszs/ack.vim'             " :Ack - grep replacement
 Plugin 'maksimr/vim-jsbeautify'
 Plugin 'elzr/vim-json'
 Plugin 'groenewege/vim-less'
+Plugin 'posva/vim-vue'
 " CSS color plugins seem nice but are very slow
 Plugin 'ap/vim-css-color'
 " Plugin 'hail2u/vim-css3-syntax'
@@ -65,8 +66,8 @@ filetype plugin indent on     " Required by Vundle.
 "----------------------------------------------------------------------------
 " Personalised settings: {{{
 set backspace=indent,eol,start  " allow backspacing over everything in insert mode
-set nobackup                    " do not keep a backup file
-set backupdir=.backup,~/.backup,.,/tmp   " places where to save backup files, in given order
+" set nobackup                    " do not keep a backup file
+set backupdir=~/.backup,.,/tmp   " places where to save backup files, in given order
 if $TMUX == ''
     set clipboard+=unnamed
 endif
@@ -74,7 +75,7 @@ set colorcolumn=100              " Add a visible end-of-line column
 set cpoptions+=$                " 'cw' etc put $ at end instead of deleting/replacing text
 set cursorcolumn                " Show a highlighted column for cursor position
 set cursorline                  " Show a highlighted row for cursor position
-set directory=.,.backup,~/.backup,/tmp
+set directory=.,~/.backup
 " set encoding=utf8    -- fails on neovim
 set expandtab                   " Tab key will always be expanded to spaces
 "set foldmethod=marker           " Fold on markers (as used in this VIMRC file)
@@ -91,7 +92,7 @@ set shiftround                  " > and < will round indent to multiple of shift
 set shiftwidth=4                " Spaces to use for each step of autoindent
 set showcmd                     " display incomplete commands on lower right corner
 set smartcase                   " override ignorecase if pattern includes uppercase
-set noswapfile
+set swapfile
 set tabstop=4                   " Number of spaces a tab in the file counts for
 set termencoding=utf8
 set textwidth=0                 " when set to 0, do not auto-wrap lines
@@ -174,6 +175,9 @@ let g:airline#extensions#branch#enabled = 0
 let g:airline_section_b = ''
 " let g:airline_section_z = ''
 
+" --- vim-vue
+let g:vue_pre_processors = []
+
 " --- NERDTree and NERDTreeTabs
 let NERDTreeIgnore=['\.pyc$', 'Session.vim', '\~$', '__pycache__', '^\.$', '^\..$']
 let NERDTreeShowHidden=1
@@ -213,8 +217,8 @@ let g:syntastic_python_python_exec = '/usr/local/var/pyenv/versions/3.6.1/bin/py
 let g:syntastic_python_checkers = ['flake8']
 
 " --- ctrl-p and nerdtree
-set wildignore+=*~,/static/*,*.pyc,/envs/*,/.venv/*
-let g:ctrlp_custom_ignore = '\v[\/](\_notrack|\.atom|\.gradle|\.git|\.hg|\.svn|envs|\.venv|lib|node_modules|jspm_modules|coverage|tools|data|htmlcov|__pycache__)$'
+set wildignore+=*~,/static/*,*.pyc,/envs/*,/.venv/*,*.class,*.pyo,*.zip,*.so,*.swp
+let g:ctrlp_custom_ignore = '\v[\/](\_notrack|\.atom|\.gradle|\.git|\.hg|\.svn|envs|\.venv|lib|node_modules|jspm_modules|coverage|tools|data|htmlcov|__pycache__|output)$'
 " relies on ag for searching (https://github.com/ggreer/the_silver_searcher)
 let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
       \ --ignore .git
@@ -294,8 +298,8 @@ map k gk
 " no ex mode, use Q for quitting
 nmap Q :q<CR>
 
-nnoremap <F8> :buffers<CR>:buffer<Space>
-nnoremap <silent> <S-F8> :BufExplorer<CR>
+" nnoremap <F8> :buffers<CR>:buffer<Space>
+nnoremap <F8> :BufExplorer<CR>
 nnoremap <F9> :GundoToggle<CR>
 
 "Buffers - next/previous: F7, Shift-F7.
