@@ -19,9 +19,9 @@ Plugin 'scrooloose/syntastic'        " Syntax highlighting
 Plugin 'scrooloose/nerdcommenter'    " Shortcuts to comment code in and out
 Plugin 'jistr/vim-nerdtree-tabs'
 " Plugin 'python-mode/python-mode'
-Plugin 'hdima/python-syntax'
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'tweekmonster/braceless.vim'  " For indent-based langs like python
+" Plugin 'hdima/python-syntax'
+" Plugin 'vim-scripts/indentpython.vim'
+" Plugin 'tweekmonster/braceless.vim'  " For indent-based langs like python
 Plugin 'nvie/vim-flake8'
 " Plugin 'fisadev/vim-isort'           " integrate isort for python import sorting
 Plugin 'tpope/vim-surround'
@@ -32,7 +32,7 @@ Plugin 'mileszs/ack.vim'             " :Ack - grep replacement
 Plugin 'maksimr/vim-jsbeautify'
 Plugin 'elzr/vim-json'
 Plugin 'groenewege/vim-less'
-Plugin 'posva/vim-vue'
+" Plugin 'posva/vim-vue'
 " CSS color plugins seem nice but are very slow
 Plugin 'ap/vim-css-color'
 " Plugin 'hail2u/vim-css3-syntax'
@@ -48,6 +48,7 @@ Plugin 'morhetz/gruvbox'
 " Plugin 'gisraptor/vim-lilypond-integrator'
 " Plugin 'derekwyatt/vim-scala'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'sheerun/vim-polyglot'  " support for multiple languages
 
 
 filetype plugin indent on     " Required by Vundle.
@@ -65,16 +66,14 @@ filetype plugin indent on     " Required by Vundle.
 "}}}
 "----------------------------------------------------------------------------
 " Personalised settings: {{{
-set backspace=indent,eol,start  " allow backspacing over everything in insert mode
+set backspace=indent,eol,start   " allow backspacing over everything in insert mode
 " set nobackup                    " do not keep a backup file
 set backupdir=~/.backup,.,/tmp   " places where to save backup files, in given order
-if $TMUX == ''
-    set clipboard+=unnamed
-endif
+set clipboard=unnamedplus        " default copy register is set to clipboard
 set colorcolumn=100              " Add a visible end-of-line column
-set cpoptions+=$                " 'cw' etc put $ at end instead of deleting/replacing text
-set cursorcolumn                " Show a highlighted column for cursor position
-set cursorline                  " Show a highlighted row for cursor position
+set cpoptions+=$                 " 'cw' etc put $ at end instead of deleting/replacing text
+set cursorcolumn                 " Show a highlighted column for cursor position
+set cursorline                   " Show a highlighted row for cursor position
 set directory=.,~/.backup
 " set encoding=utf8    -- fails on neovim
 set expandtab                   " Tab key will always be expanded to spaces
@@ -109,9 +108,9 @@ set wildmode=longest:full       " Complete only till longest common string
 " set statusline=%f\ %m\ Line:%l/%L[%p%%]\ Col:%v\ Buf:#%n\ [%b][0x%B]
 
 " In many terminal emulators the mouse works just fine, thus enable it.
-if has('mouse')
-    set mouse=a
-endif
+"if has('mouse')
+    "set mouse=a
+"endif
 
 " Set cursor color in gnome or xterm
 if &term =~ "xterm\\|rxvt"
@@ -142,7 +141,8 @@ if has("autocmd")
         autocmd FileType vim setlocal foldmethod=marker
         autocmd BufNewFile,BufReadPost *.md set filetype=markdown
         autocmd BufRead,BufNewFile *.jenkinsfile set filetype=groovy
-        autocmd FileType python BracelessEnable +indent +fold
+        " autocmd FileType python BracelessEnable +indent +fold
+        autocmd FileType rust nmap ff :!cargo fmt 
 
         " When editing a file, always jump to the last known cursor position.
         " Don't do it when the position is invalid or when inside an event handler
@@ -179,7 +179,7 @@ let g:airline_section_b = ''
 let g:vue_pre_processors = []
 
 " --- NERDTree and NERDTreeTabs
-let NERDTreeIgnore=['\.pyc$', 'Session.vim', '\~$', '__pycache__', '^\.$', '^\..$']
+let NERDTreeIgnore=['\.swp','\.pyc$', 'Session.vim', '\~$', '__pycache__', '^\.$', '^\..$']
 let NERDTreeShowHidden=1
 " let g:nerdtree_tabs_open_on_console_startup = 1
 " show tree only if invoked with no file
@@ -200,8 +200,8 @@ set fileformat=unix
 au BufRead,BufNewFile Makefile* set noexpandtab
 
 " --- flake8
-autocmd BufWritePost *.py call Flake8()
-let g:flake8_cmd = 'flake8'
+"autocmd BufWritePost *.py call Flake8()
+"let g:flake8_cmd = 'flake8'
 
 " --- isort
 " let g:vim_isort_map = '<C-i>'
