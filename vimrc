@@ -112,9 +112,9 @@ set wildmode=longest:full       " Complete only till longest common string
 " set statusline=%f\ %m\ Line:%l/%L[%p%%]\ Col:%v\ Buf:#%n\ [%b][0x%B]
 
 " In many terminal emulators the mouse works just fine, thus enable it.
-"if has('mouse')
-    "set mouse=a
-"endif
+if has('mouse')
+    set mouse=a
+endif
 
 " Set cursor color in gnome or xterm
 if &term =~ "xterm\\|rxvt"
@@ -368,6 +368,5 @@ let g:gruvbox_italic=1
 let g:gruvbox_italicize_comments=1
 
 " Set colorscheme last to guarantee proper syntax highlighting
-" colorscheme txels-dark
 colorscheme gruvbox
-set background=dark
+" set background=dark
