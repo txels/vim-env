@@ -8,12 +8,12 @@ Plugin 'gmarik/vundle'
 
 " -- original repos on github
 Plugin 'thisivan/vim-bufexplorer'
-Plugin 'tpope/vim-fugitive'
+" Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'bling/vim-airline'           " Improved status line
 " Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-Plugin 'kien/ctrlp.vim'              " Search file name with Ctrl-P
+Plugin 'ctrlpvim/ctrlp.vim'              " Search file name with Ctrl-P
 Plugin 'scrooloose/nerdtree'         " Navigate files in a tree
 Plugin 'scrooloose/syntastic'        " Syntax highlighting
 Plugin 'scrooloose/nerdcommenter'    " Shortcuts to comment code in and out
@@ -49,7 +49,11 @@ Plugin 'morhetz/gruvbox'
 " Plugin 'derekwyatt/vim-scala'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'sheerun/vim-polyglot'  " support for multiple languages
+Plugin 'ryanoasis/vim-devicons'
 
+" https://github.com/sheerun/vim-polyglot#default-settings
+" let g:polyglot_disabled = ['sensible']
+" let g:gutentags_enabled = 0
 
 filetype plugin indent on     " Required by Vundle.
                               " Enables uploading plugin and indent files for filetypes
@@ -171,6 +175,7 @@ let g:ackprg = 'ag --vimgrep'
 " --- airline
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 0
+" let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#branch#enabled = 0
 let g:airline_section_b = ''
 " let g:airline_section_z = ''
@@ -184,11 +189,6 @@ let NERDTreeShowHidden=1
 " let g:nerdtree_tabs_open_on_console_startup = 1
 " show tree only if invoked with no file
 autocmd VimEnter * if argc() == 0 | NERDTree | endif
-
-" --- Python:
-let g:pymode_folding = 1
-let g:pymode_rope = 0
-let g:pymode_python = 'python3'
 
 set tabstop=4
 set softtabstop=4
